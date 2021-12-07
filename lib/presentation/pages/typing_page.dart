@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:typing/presentation/widgets/app_bar_widget.dart';
 
 class TypingPage extends StatelessWidget {
   static Route<dynamic> route() {
@@ -11,6 +12,7 @@ class TypingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBarWidget(),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           /// Android のステータスバーのカラー設定
