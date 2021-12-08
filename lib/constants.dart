@@ -18,6 +18,7 @@ class AppTextStyle {
 
 class AppPadding {
   static final menuIcon = EdgeInsets.all(3.h);
+  static final typingForm = EdgeInsets.fromLTRB(50.w, 10.h, 50.w, 10.h);
 }
 
 class AppDesign {
