@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/src/provider.dart';
+import 'package:typing/presentation/blocs/typing_bloc.dart';
 import 'package:typing/presentation/pages/typing_page.dart';
 
 import '../../constants.dart';
@@ -13,6 +15,7 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var b = context.read<TypingBloc>();
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         /// Android のステータスバーのカラー設定
