@@ -8,17 +8,22 @@ class CsvQuestionRepository implements QuestionRepository {
   List<QuestionData> _shuffleList = [];
   @override
   Future<QuestionData> fetchQuestion() async {
+    //問題リストがなければ問題データを追加
     if (_shuffleList.length <= 0) {
+      //問題データがなければデータ読み込み
       if (_questionData.length <= 0) {
         var csv = await rootBundle.loadString(AppAsset.questionPath);
         for (String line in csv.split("\r\n")) {
           var rows = line.split(",");
-          if (!(rows.length > 0)) continue;
-          var data = QuestionData(rows.first, rows[0]);
-          _questionData.add(data);
+          if (rows.length > 1) {
+            var display = rows[1].replaceAll("¥n", "\r\n");
+            var data = QuestionData(rows[0], display);
+            _questionData.add(data);
+          }
         }
       }
       if (_questionData.length <= 0) {
+        //問題読み込みエラー
         print("QuestionLoadError");
         return QuestionData("", "");
       }
@@ -28,4 +33,6 @@ class CsvQuestionRepository implements QuestionRepository {
     QuestionData result = _shuffleList.removeLast();
     return result;
   }
+
+  void loadCSV() {}
 }

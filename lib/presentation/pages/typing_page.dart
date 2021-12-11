@@ -24,20 +24,23 @@ class TypingPageState extends State<TypingPage> {
   String _pageName = 'メインページ';
   final TextEditingController _typingFormController = TextEditingController();
 
+  QuestionData? _currentQuestion;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     //Blocの初期化
     _bloc = context.read<TypingBloc>();
-    // _bloc.add(TypingEvent.next);
+    _bloc.add(TypingEvent.next);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
-      _bloc.add(TypingEvent.next);
-    });
+  void _sendAnswer() {
+    if (_currentQuestion != null) {
+      if (_typingFormController.text == _currentQuestion!.typingQuestion) {
+        _typingFormController.text = "";
+        _bloc.add(TypingEvent.next);
+      }
+    }
   }
 
   @override
@@ -81,19 +84,27 @@ class TypingPageState extends State<TypingPage> {
                     ),
                   ),
                   BlocBuilder<TypingBloc, QuestionData>(
-                    builder: (context, data) => Center(
-                      //コンテンツ部分
-                      child: Padding(
-                        padding: AppPadding.page,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(data.displayQuestion),
-                            TypingFormWidget(controller: _typingFormController),
-                          ],
+                    builder: (context, data) {
+                      _currentQuestion = data;
+                      return Center(
+                        //コンテンツ部分
+                        child: Padding(
+                          padding: AppPadding.page,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(data.displayQuestion,
+                                  textAlign: TextAlign.center),
+                              Text(data.typingQuestion,
+                                  textAlign: TextAlign.center),
+                              TypingFormWidget(
+                                  controller: _typingFormController,
+                                  onPressEnter: _sendAnswer),
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ],
               ),
