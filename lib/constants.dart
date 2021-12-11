@@ -8,6 +8,7 @@ class AppString {
   static const top = "トップ";
   static const chart = "スコア";
   static const finish = "終了";
+  static const retry = "リトライ";
 }
 
 class AppTextStyle {
@@ -15,6 +16,7 @@ class AppTextStyle {
   static final title = TextStyle(fontSize: 40.sp);
   static final menu = TextStyle(fontSize: 20.sp);
   static final pageTitle = TextStyle(fontSize: 20.sp);
+  static final startCount = TextStyle(fontSize: 40.sp);
 }
 
 class AppPadding {
@@ -25,7 +27,12 @@ class AppPadding {
 }
 
 class AppDesign {
-  static final smallSpace = 100.h;
+  static final smallSpace = 10.h;
+}
+
+class AppData {
+  static const startCount = 3;
+  static const playTime = 60;
 }
 
 class AppColor {
