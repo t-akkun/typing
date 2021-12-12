@@ -32,7 +32,7 @@ class AppDesign {
 
 class AppData {
   static const startCount = 3;
-  static const playTime = 60;
+  static const playTime = 3;
 }
 
 class AppColor {

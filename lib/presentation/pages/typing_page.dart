@@ -4,10 +4,14 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:typing/application/application_service.dart';
 import 'package:typing/domain/question_data.dart';
+import 'package:typing/domain/record_data.dart';
+import 'package:typing/presentation/blocs/record_bloc.dart';
 import 'package:typing/presentation/blocs/typing_bloc.dart';
 import 'package:typing/presentation/widgets/app_bar_widget.dart';
 import 'package:typing/presentation/widgets/text_form_widget.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../constants.dart';
 
@@ -32,6 +36,8 @@ class TypingPageState extends State<TypingPage> {
   TypingState _state = TypingState.start;
   QuestionData? _currentQuestion;
   int _score = 0;
+  int _missType = 0;
+  double _speed = 0;
 
   @override
   void initState() {
@@ -50,8 +56,17 @@ class TypingPageState extends State<TypingPage> {
             break;
           case TypingState.play:
             if (_timer > AppData.playTime) {
+              //スコアの記録
+              RecordData record = RecordData(
+                  id: Uuid().v4(),
+                  recordDate: DateTime.now(),
+                  score: _score,
+                  missType: _missType,
+                  speed: _speed);
+              appService.registerRecordData(record);
               _timer = 0;
               _state = TypingState.finish;
+              context.read<RecordBloc>().getAll();
             }
             break;
           default:
@@ -66,7 +81,7 @@ class TypingPageState extends State<TypingPage> {
     super.didChangeDependencies();
     //Blocの初期化
     _bloc = context.read<TypingBloc>();
-    _bloc.add(TypingEvent.next);
+    _bloc.getNext();
   }
 
 //回答の送信
@@ -75,7 +90,7 @@ class TypingPageState extends State<TypingPage> {
       if (_typingFormController.text == _currentQuestion!.typingQuestion) {
         _typingFormController.text = "";
         _score++;
-        _bloc.add(TypingEvent.next);
+        _bloc.getNext();
       }
     }
   }
@@ -84,7 +99,7 @@ class TypingPageState extends State<TypingPage> {
   void _init() {
     _startCount = 0;
     _state = TypingState.start;
-    _bloc.add(TypingEvent.next);
+    _bloc.getNext();
     _timer = 0;
   }
 

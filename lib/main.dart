@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +11,7 @@ import 'package:typing/presentation/pages/typing_page.dart';
 
 import 'application/application_service.dart';
 import 'infrastructure/csv_question_repository.dart';
+import 'presentation/blocs/record_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,12 +26,13 @@ void main() {
 class TypingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final QuestionRepository questionRepository = CsvQuestionRepository();
-    final applicationService = ApplicationService(questionRepository);
     return MultiBlocProvider(
       providers: [
         BlocProvider<TypingBloc>(
-          create: (BuildContext context) => TypingBloc(applicationService),
+          create: (BuildContext context) => TypingBloc(),
+        ),
+        BlocProvider<RecordBloc>(
+          create: (BuildContext context) => RecordBloc(),
         ),
       ],
       child: MaterialApp(
