@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:typing/presentation/pages/chart_page.dart';
 import 'package:typing/presentation/pages/typing_page.dart';
 
 import '../../constants.dart';
@@ -54,10 +55,10 @@ class AppBarWidget extends StatelessWidget with PreferredSizeWidget {
           .copyWith(dividerTheme: DividerThemeData(color: Colors.grey)),
       child: AppBar(
         title: Text(
-          AppString.title,
+          AppString.appbarTitle,
           style: TextStyle(color: Colors.white),
         ),
-        centerTitle: false,
+        centerTitle: true,
         backgroundColor: Colors.blue,
         elevation: 0.0,
         automaticallyImplyLeading: false,
@@ -76,7 +77,7 @@ class AppBarWidget extends StatelessWidget with PreferredSizeWidget {
                 case MainMenuItem.chart:
                   print('scorechart');
                   Navigator.of(context).pushAndRemoveUntil<dynamic>(
-                      TypingPage.route(), (route) => false);
+                      ChartPage.route(), (route) => false);
                   break;
                 case MainMenuItem.finish:
                   print('finish');

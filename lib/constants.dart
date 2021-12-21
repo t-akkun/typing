@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppString {
   static const appName = "TypingGame";
   static const title = "タイピング\nゲーム";
+  static const appbarTitle = "タイピングゲーム";
   static const start = "スタート";
   static const top = "トップ";
   static const chart = "スコア";
@@ -32,7 +33,7 @@ class AppDesign {
 
 class AppData {
   static const startCount = 3;
-  static const playTime = 3;
+  static const playTime = 60;
 }
 
 class AppColor {

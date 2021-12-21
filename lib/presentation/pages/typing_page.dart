@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -89,8 +88,10 @@ class TypingPageState extends State<TypingPage> {
     if (_currentQuestion != null) {
       if (_typingFormController.text == _currentQuestion!.typingQuestion) {
         _typingFormController.text = "";
-        _score++;
+        _score += _currentQuestion!.typingQuestion.length;
         _bloc.getNext();
+      } else {
+        _missType++;
       }
     }
   }
@@ -101,17 +102,22 @@ class TypingPageState extends State<TypingPage> {
     _state = TypingState.start;
     _bloc.getNext();
     _timer = 0;
+    _score = 0;
+    _missType = 0;
+    _speed = 0;
   }
 
   //コンテンツの作成
   Widget _createContent() {
     Widget _content = Container();
     switch (_state) {
+      //カウント画面
       case TypingState.start:
         _content = Center(
             child:
                 Text(_startCount.toString(), style: AppTextStyle.startCount));
         break;
+      //タイピング画面
       case TypingState.play:
         if (_currentQuestion != null) {
           _content = Column(
@@ -135,6 +141,7 @@ class TypingPageState extends State<TypingPage> {
           );
         }
         break;
+      //終了画面
       case TypingState.finish:
         _content = Column(
           crossAxisAlignment: CrossAxisAlignment.center,

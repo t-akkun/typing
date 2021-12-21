@@ -18,6 +18,7 @@ class TypingFormWidget extends StatelessWidget {
         decoration: InputDecoration(
           border: OutlineInputBorder(),
         ),
+        autofocus: true,
         autovalidateMode: AutovalidateMode.always,
         textAlign: TextAlign.center,
         keyboardType: TextInputType.text,
